@@ -1,0 +1,19 @@
+## .NET
+bin/
+obj/
+*.user
+.vs/
+
+## Secrets
+OcuparApi/appsettings.json
+
+## Rider / VS
+.idea/
+*.suo
+
+## OS
+.DS_Store
+Thumbs.db
+
+## OpenSpec change history (active + archived) - not tracked in git
+openspec/changes/
