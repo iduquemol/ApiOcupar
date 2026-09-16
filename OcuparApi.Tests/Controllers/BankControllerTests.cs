@@ -27,5 +27,24 @@ namespace OcuparApi.Tests.Controllers
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.Same(banks, okResult.Value);
         }
+
+        [Fact]
+        public async Task GetAccounts_ReturnsOkWithAccountsFromRepository()
+        {
+            var accounts = new List<BankAccount>
+            {
+                new() { Id = "30657094276", BankId = "07", Name = "BANCOLOMBIA   30657094276", AccountNumber = "30657094276", TipoCuenta = "Cuenta Corriente" }
+            };
+
+            var repositoryMock = new Mock<IBankRepository>();
+            repositoryMock.Setup(r => r.GetAccountsByBankAsync("07")).ReturnsAsync(accounts);
+
+            var controller = new BankController(repositoryMock.Object);
+
+            var result = await controller.GetAccounts("07");
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Same(accounts, okResult.Value);
+        }
     }
 }

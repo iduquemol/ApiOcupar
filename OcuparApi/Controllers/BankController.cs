@@ -20,5 +20,12 @@ namespace OcuparApi.Controllers
             var banks = await _bankRepository.GetBanksAsync();
             return Ok(banks);
         }
+
+        [HttpGet("{bankId}/accounts")]
+        public async Task<IActionResult> GetAccounts(string bankId)
+        {
+            var accounts = await _bankRepository.GetAccountsByBankAsync(bankId);
+            return Ok(accounts);
+        }
     }
 }
