@@ -33,6 +33,22 @@ namespace OcuparApi.Services
             return MapBanks(bancos);
         }
 
+        public async Task<IEnumerable<BankAccount>> GetAccountsByBankAsync(string bankId)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+
+            // usr_itq_Read_cuentasbancosId returns a single row with one
+            // JSON-text column ("cuentasBancos") listing every bank; only
+            // the entry matching the @bancos input parameter has a non-null
+            // nested account list.
+            var cuentasBancos = await connection.QuerySingleOrDefaultAsync<string?>(
+                "usr_itq_Read_cuentasbancosId",
+                new { bancos = bankId },
+                commandType: CommandType.StoredProcedure);
+
+            return MapAccounts(cuentasBancos, bankId);
+        }
+
         internal static IEnumerable<Bank> MapBanks(string? bancosJson)
         {
             if (string.IsNullOrWhiteSpace(bancosJson))
@@ -47,6 +63,32 @@ namespace OcuparApi.Services
             {
                 Id = raw.CodBan,
                 Name = raw.NomBan
+            });
+        }
+
+        internal static IEnumerable<BankAccount> MapAccounts(string? cuentasBancosJson, string bankId)
+        {
+            if (string.IsNullOrWhiteSpace(cuentasBancosJson))
+            {
+                return Enumerable.Empty<BankAccount>();
+            }
+
+            var entries = JsonSerializer.Deserialize<List<BankAccountsEntryJson>>(cuentasBancosJson, JsonOptions)
+                ?? new List<BankAccountsEntryJson>();
+
+            var matchedEntry = entries.FirstOrDefault(entry => entry.CodBan == bankId);
+            if (matchedEntry?.CuentasBancos is null)
+            {
+                return Enumerable.Empty<BankAccount>();
+            }
+
+            return matchedEntry.CuentasBancos.Select(raw => new BankAccount
+            {
+                Id = raw.Ctabanco,
+                BankId = bankId,
+                Name = raw.Nombre,
+                AccountNumber = raw.Ctabanco,
+                TipoCuenta = raw.TipoCuenta
             });
         }
     }
