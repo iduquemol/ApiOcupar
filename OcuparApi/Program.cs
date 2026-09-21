@@ -22,6 +22,9 @@ namespace OcuparApi
             builder.Services.AddScoped<IDbConnectionFactory, SqlConnectionFactory>();
             builder.Services.AddScoped<IBankRepository, BankRepository>();
 
+            // Registrar repositorio de extractos (carga de extractos bancarios por banco)
+            builder.Services.AddScoped<IExtractoRepository, ExtractoRepository>();
+
             // Registrar HttpClient para llamadas a APIs externas
             builder.Services.AddHttpClient();
 
