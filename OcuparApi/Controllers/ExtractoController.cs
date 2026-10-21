@@ -23,5 +23,12 @@ namespace OcuparApi.Controllers
             var idExtracto = await _extractoRepository.LoadCajaSocialExtractoAsync(body.GetRawText());
             return Ok(new LoadExtractoResult { IdExtracto = idExtracto });
         }
+
+        [HttpGet("{idExtracto}")]
+        public async Task<IActionResult> GetMovements(long idExtracto)
+        {
+            var movements = await _extractoRepository.GetMovementsAsync(idExtracto);
+            return Ok(movements);
+        }
     }
 }

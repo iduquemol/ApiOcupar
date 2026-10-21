@@ -25,6 +25,9 @@ namespace OcuparApi
             // Registrar repositorio de extractos (carga de extractos bancarios por banco)
             builder.Services.AddScoped<IExtractoRepository, ExtractoRepository>();
 
+            // Registrar repositorio de catalogos (terceros, cuentas contables, subtipos de documento)
+            builder.Services.AddScoped<ICatalogosRepository, CatalogosRepository>();
+
             // Registrar HttpClient para llamadas a APIs externas
             builder.Services.AddHttpClient();
 
