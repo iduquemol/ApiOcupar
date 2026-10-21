@@ -27,5 +27,24 @@ namespace OcuparApi.Tests.Controllers
             var value = Assert.IsType<LoadExtractoResult>(okResult.Value);
             Assert.Equal(42, value.IdExtracto);
         }
+
+        [Fact]
+        public async Task GetMovements_ReturnsOkWithMovementsFromRepository()
+        {
+            var movements = new List<ExtractoMovement>
+            {
+                new() { IdRegistroExtracto = 444, IdExtracto = 72, FechaMovimiento = "2026-08-03", DescripcionMovimiento = "COMPRA INTERNET" }
+            };
+
+            var repositoryMock = new Mock<IExtractoRepository>();
+            repositoryMock.Setup(r => r.GetMovementsAsync(72)).ReturnsAsync(movements);
+
+            var controller = new ExtractoController(repositoryMock.Object);
+
+            var result = await controller.GetMovements(72);
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Same(movements, okResult.Value);
+        }
     }
 }
