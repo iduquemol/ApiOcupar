@@ -23,6 +23,12 @@ namespace OcuparApi.Models
 
         [JsonPropertyName("nom_cta")]
         public string NomCta { get; init; } = string.Empty;
+
+        [JsonPropertyName("tipo")]
+        public string Tipo { get; init; } = string.Empty;
+
+        [JsonPropertyName("por_cta")]
+        public decimal PorCta { get; init; } = 0;
     }
 
     internal record SubTipoDocumentoJson

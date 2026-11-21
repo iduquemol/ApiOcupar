@@ -22,4 +22,12 @@ namespace OcuparApi.Models
         public string CuentaContable { get; init; } = string.Empty;
         public string NombreCuenta { get; init; } = string.Empty;
     }
+
+    public record CuentaItem
+    {
+        public string Codigo { get; init; } = string.Empty;
+        public string Nombre { get; init; } = string.Empty;
+        public string Tipo { get; init; } = string.Empty;
+        public decimal Porcentaje { get; init; } = 0;
+    }
 }

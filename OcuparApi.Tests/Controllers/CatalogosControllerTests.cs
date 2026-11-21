@@ -26,7 +26,7 @@ namespace OcuparApi.Tests.Controllers
         [Fact]
         public async Task GetCuentasContables_ReturnsOkWithRepositoryResult()
         {
-            var items = new List<CatalogItem> { new() { Codigo = "00", Nombre = "NO APLICA" } };
+            var items = new List<CuentaItem> { new() { Codigo = "00", Nombre = "NO APLICA" } };
             var repositoryMock = new Mock<ICatalogosRepository>();
             repositoryMock.Setup(r => r.GetCuentasContablesAsync()).ReturnsAsync(items);
 

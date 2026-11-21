@@ -28,6 +28,9 @@ namespace OcuparApi
             // Registrar repositorio de catalogos (terceros, cuentas contables, subtipos de documento)
             builder.Services.AddScoped<ICatalogosRepository, CatalogosRepository>();
 
+            // Registrar repositorio de cartera (cuentas por cobrar por nit de cliente)
+            builder.Services.AddScoped<ICarteraRepository, CarteraRepository>();
+
             // Registrar HttpClient para llamadas a APIs externas
             builder.Services.AddHttpClient();
 
