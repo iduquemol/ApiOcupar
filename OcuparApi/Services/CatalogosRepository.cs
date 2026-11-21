@@ -31,7 +31,7 @@ namespace OcuparApi.Services
             return MapTerceros(json);
         }
 
-        public async Task<IEnumerable<CatalogItem>> GetCuentasContablesAsync()
+        public async Task<IEnumerable<CuentaItem>> GetCuentasContablesAsync()
         {
             using var connection = _connectionFactory.CreateConnection();
 
@@ -152,17 +152,17 @@ namespace OcuparApi.Services
             return raw.Select(r => new CatalogItem { Codigo = r.TerNit, Nombre = r.TerNombre });
         }
 
-        internal static IEnumerable<CatalogItem> MapCuentasContables(string? json)
+        internal static IEnumerable<CuentaItem> MapCuentasContables(string? json)
         {
             if (string.IsNullOrWhiteSpace(json))
             {
-                return Enumerable.Empty<CatalogItem>();
+                return Enumerable.Empty<CuentaItem>();
             }
 
             var raw = JsonSerializer.Deserialize<List<CuentaContableJson>>(json, JsonOptions)
                 ?? new List<CuentaContableJson>();
 
-            return raw.Select(r => new CatalogItem { Codigo = r.CodCta, Nombre = r.NomCta });
+            return raw.Select(r => new CuentaItem { Codigo = r.CodCta, Nombre = r.NomCta, Tipo = r.Tipo, Porcentaje = r.PorCta });
         }
 
         internal static IEnumerable<CatalogItem> MapSubTiposDocumento(string? json)
